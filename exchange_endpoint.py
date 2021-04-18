@@ -191,7 +191,7 @@ def order_book():
         myorder['sender_pk'] =  getattr(myquery,'sender_pk')
         myorder['receiver_pk'] =  getattr(myquery,'receiver_pk')
         myorder['signature'] =  getattr(myquery,'signature')
-        myorder['platform'] =  getattr(myquery,'platform')
+
         mydict.append(myorder)
     result_order_book = { 'data': mydict } 
     #print(result_order_book) 
