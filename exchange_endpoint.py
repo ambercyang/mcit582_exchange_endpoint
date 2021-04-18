@@ -42,7 +42,7 @@ def shutdown_session(response_or_exc):
 """ Suggested helper methods """
 def check_sig(payload,sig):
     #1. Verifying an endpoint for verifying signatures for ethereum
-    result = False
+    result_check_sig = False
     platform = payload['platform']
     sk = sig
     pk = payload['pk']
@@ -52,19 +52,19 @@ def check_sig(payload,sig):
         eth_encoded_msg = eth_account.messages.encode_defunct(text=message)
         recovered_pk = eth_account.Account.recover_message(eth_encoded_msg,signature=sk)
         if(recovered_pk == pk):
-            result = True
+            result_check_sig = True
             print( "Eth sig verifies!" )    
     
         #2. Verifying an endpoint for verifying signatures for Algorand
     elif platform == "Algorand":
-        result = algosdk.util.verify_bytes(message.encode('utf-8'),sk,pk)
-        if(result):
+        result_check_sig = algosdk.util.verify_bytes(message.encode('utf-8'),sk,pk)
+        if(result_check_sig):
             print( "Algo sig verifies!" )
     
         #3. Check for invalid input
     else:
         print("invalid input")
-    return jsonify(result)
+    return jsonify(result_check_sig)
 
 
 # In[3]:
@@ -191,10 +191,10 @@ def order_book():
         order['receiver_pk'] =  getattr(myquery,'receiver_pk')
         order['signature'] =  getattr(myquery,'signature')
         mydict.append(order)
-    result = { 'data': mydict } 
-    print(result) 
+    result_order_book = { 'data': mydict } 
+    print(result_order_book) 
     
-    return jsonify(result)
+    return jsonify(result_order_book)
 
 if __name__ == '__main__':
     app.run(port='5002')
