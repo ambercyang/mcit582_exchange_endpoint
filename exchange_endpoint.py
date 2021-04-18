@@ -42,7 +42,7 @@ def shutdown_session(response_or_exc):
 """ Suggested helper methods """
 def check_sig(payload,sig):
     #1. Verifying an endpoint for verifying signatures for ethereum
-    result2 = False
+    result = False
     platform = payload['platform']
     sk = sig
     pk = payload['pk']
@@ -51,29 +51,29 @@ def check_sig(payload,sig):
     if platform == "Ethereum":
         eth_encoded_msg = eth_account.messages.encode_defunct(text=message)
         recovered_pk = eth_account.Account.recover_message(eth_encoded_msg,signature=sk)
-        if(recovered_pk ==pk):
-            result2 = True
+        if(recovered_pk == pk):
+            result = True
             print( "Eth sig verifies!" )    
     
         #2. Verifying an endpoint for verifying signatures for Algorand
     elif platform == "Algorand":
-        result2 = algosdk.util.verify_bytes(message.encode('utf-8'),sk,pk)
-        if(result2):
+        result = algosdk.util.verify_bytes(message.encode('utf-8'),sk,pk)
+        if(result):
             print( "Algo sig verifies!" )
     
         #3. Check for invalid input
     else:
         print("invalid input")
-    return jsonify(result2)
+    return jsonify(result)
 
 
 # In[3]:
 
 
 def fill_order(order,txes=[]):
-    #Your code here
+#Your code here
     #1.Insert the order
-    #order_obj = Order( sender_pk=order['sender_pk'],receiver_pk=order['receiver_pk'], buy_currency=order['buy_currency'], sell_currency=order['sell_currency'], buy_amount=order['buy_amount'], sell_amount=order['sell_amount'] )
+    order_obj = Order( sender_pk=order['sender_pk'],receiver_pk=order['receiver_pk'], buy_currency=order['buy_currency'], sell_currency=order['sell_currency'], buy_amount=order['buy_amount'], sell_amount=order['sell_amount'] )
     #session.add(order_obj)
     #session.commit()
 
@@ -145,35 +145,31 @@ def trade():
                 return jsonify( False )
             
 #Your code here
-#Note that you can access the database session using g.session
-
-            
-
+#Note that you can access the database session using g.session            
 # TODO: Check the signature
     payload = content['payload']
-    sig = content['sig']  
-    if(not check_sig(payload,sig))
-        return jsonify(False)
-
+    sig = content['sig']
+    result = check_sig(payload,sig)
       
-# TODO: Add the order to the database        
-    order = {}
-    order['sender_pk'] = payload['sender_pk']
-    order['receiver_pk'] = payload['receiver_pk']
-    order['buy_currency'] = payload['buy_currency']
-    order['sell_currency'] = payload['sell_currency']
-    order['buy_amount'] = payload['buy_amount']
-    order['sell_amount'] = payload['sell_amount']
-    order['signature'] = sig
+# TODO: Add the order to the database
+    if(result):
+        order = {}
+        order['sender_pk'] = payload['sender_pk']
+        order['receiver_pk'] = payload['receiver_pk']
+        order['buy_currency'] = payload['buy_currency']
+        order['sell_currency'] = payload['sell_currency']
+        order['buy_amount'] = payload['buy_amount']
+        order['sell_amount'] = payload['sell_amount']
+        order['signature'] = sig
 
-    g.session.add( Order(**order) )
-    g.session.commit()
+        g.session.add( Order(**order) )
+        g.session.commit()
         
 # TODO: Fill the order
-    fill_order(order,txes=[])
+        fill_order(Order(**order),txes=[])
         
 # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
-    return jsonify(True)
+    return jsonify(result)
 
 
 # In[ ]:
@@ -195,10 +191,10 @@ def order_book():
         order['receiver_pk'] =  getattr(myquery,'receiver_pk')
         order['signature'] =  getattr(myquery,'signature')
         mydict.append(order)
-    result1 = { 'data': mydict } 
-    print(result1) 
+    result = { 'data': mydict } 
+    print(result) 
     
-    return jsonify(result1)
+    return jsonify(result)
 
 if __name__ == '__main__':
     app.run(port='5002')
