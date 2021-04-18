@@ -151,8 +151,10 @@ def trade():
 
 # TODO: Check the signature
     payload = content['payload']
-    sig = content['sig']
-    result = check_sig(payload,sig)
+    sig = content['sig']  
+    if(not check_sig(payload,sig))
+        return jsonify(False)
+
       
 # TODO: Add the order to the database        
     order = {}
@@ -171,7 +173,7 @@ def trade():
     fill_order(order,txes=[])
         
 # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
-    return jsonify(result)
+    return jsonify(True)
 
 
 # In[ ]:
