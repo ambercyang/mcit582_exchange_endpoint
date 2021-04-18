@@ -177,6 +177,7 @@ def trade():
         log_message(content)
         
 # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
+    print(" this is jsonify(result_check) = ",jsonify(result_check))
     return jsonify(result_check)
 
 
@@ -201,7 +202,7 @@ def order_book():
         mydict.append(myorder)
     result_order_book = { 'data': mydict } 
     #print(result_order_book) 
-    
+    print(" this is jsonify(result_order_book) = ",jsonify(result_order_book))
     return jsonify(result_order_book)
 
 if __name__ == '__main__':
