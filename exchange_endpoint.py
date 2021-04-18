@@ -130,7 +130,7 @@ def trade():
     if request.method == "POST":
         content = request.get_json(silent=True)
         print( f"content = {json.dumps(content)}" )
-        columns = [ "sender_pk", "receiver_pk", "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform" ]
+        columns = [ "pk", "sender_pk", "receiver_pk", "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform" ]
         fields = [ "sig", "payload" ]
 
         for field in fields:
