@@ -146,9 +146,7 @@ def trade():
             
 #Your code here
 #Note that you can access the database session using g.session
-        if error:
-            print( json.dumps(content) )
-            log_message(content)
+
             
 
 # TODO: Check the signature
