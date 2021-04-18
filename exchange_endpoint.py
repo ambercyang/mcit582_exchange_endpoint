@@ -157,17 +157,17 @@ def trade():
       
 # TODO: Add the order to the database
     if(result_check):
-        order = {}
-        order['sender_pk'] = payload['sender_pk']
-        order['receiver_pk'] = payload['receiver_pk']
-        order['buy_currency'] = payload['buy_currency']
-        order['sell_currency'] = payload['sell_currency']
-        order['buy_amount'] = payload['buy_amount']
-        order['sell_amount'] = payload['sell_amount']
-        order['signature'] = sig
+        #order = {}
+        #order['sender_pk'] = payload['sender_pk']
+        #order['receiver_pk'] = payload['receiver_pk']
+        #order['buy_currency'] = payload['buy_currency']
+        #order['sell_currency'] = payload['sell_currency']
+        #order['buy_amount'] = payload['buy_amount']
+        #order['sell_amount'] = payload['sell_amount']
+        #order['signature'] = sig
 
-        g.session.add( Order(**order) )
-        g.session.commit()
+        #g.session.add( Order(**order) )
+        #g.session.commit()
         
 # TODO: Fill the order
         fill_order(order,txes=[])
