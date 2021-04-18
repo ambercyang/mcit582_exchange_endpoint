@@ -73,7 +73,7 @@ def check_sig(payload,sig):
 def fill_order(order,txes=[]):
 #Your code here
     #1.Insert the order
-    order_obj = order
+    order_obj = Order( sender_pk=order['sender_pk'],receiver_pk=order['receiver_pk'], buy_currency=order['buy_currency'], sell_currency=order['sell_currency'], buy_amount=order['buy_amount'], sell_amount=order['sell_amount'] )
     #session.add(order_obj)
     #session.commit()
 
@@ -167,7 +167,7 @@ def trade():
         g.session.commit()
         
 # TODO: Fill the order
-        fill_order(Order(**order),txes=[])
+        fill_order(order,txes=[])
         
 # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
     return jsonify(result_check)
