@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[4]:
+# In[ ]:
 
 
 from flask import Flask, request, g
@@ -36,7 +36,7 @@ def shutdown_session(response_or_exc):
     g.session.remove()
 
 
-# In[2]:
+# In[ ]:
 
 
 """ Suggested helper methods """
@@ -67,7 +67,7 @@ def check_sig(payload,sig):
     return jsonify(result_check_sig)
 
 
-# In[3]:
+# In[ ]:
 
 
 def fill_order(order,txes=[]):
@@ -105,7 +105,7 @@ def fill_order(order,txes=[]):
     pass
 
 
-# In[4]:
+# In[ ]:
 
 
 def log_message(d):
@@ -118,7 +118,7 @@ def log_message(d):
 """ End of helper methods """
 
 
-# In[5]:
+# In[ ]:
 
 
 @app.route('/trade', methods=['POST'])
@@ -183,17 +183,18 @@ def order_book():
     temp = g.session.query(Order)
     mydict = []
     for myquery in temp.all():
-        order = {}
-        order['buy_currency'] = getattr(myquery,'buy_currency')
-        order['sell_currency'] =  getattr(myquery,'sell_currency')
-        order['buy_amount'] =  getattr(myquery,'buy_amount')
-        order['sell_amount'] =  getattr(myquery,'sell_amount')
-        order['sender_pk'] =  getattr(myquery,'sender_pk')
-        order['receiver_pk'] =  getattr(myquery,'receiver_pk')
-        order['signature'] =  getattr(myquery,'signature')
-        mydict.append(order)
+        myorder = {}
+        myorder['buy_currency'] = getattr(myquery,'buy_currency')
+        myorder['sell_currency'] =  getattr(myquery,'sell_currency')
+        myorder['buy_amount'] =  getattr(myquery,'buy_amount')
+        myorder['sell_amount'] =  getattr(myquery,'sell_amount')
+        myorder['sender_pk'] =  getattr(myquery,'sender_pk')
+        myorder['receiver_pk'] =  getattr(myquery,'receiver_pk')
+        myorder['signature'] =  getattr(myquery,'signature')
+        myorder['platform'] =  getattr(myquery,'platform')
+        mydict.append(myorder)
     result_order_book = { 'data': mydict } 
-    print(result_order_book) 
+    #print(result_order_book) 
     
     return jsonify(result_order_book)
 
@@ -201,7 +202,7 @@ if __name__ == '__main__':
     app.run(port='5002')
 
 
-# In[5]:
+# In[ ]:
 
 
 #models.py
