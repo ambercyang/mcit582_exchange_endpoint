@@ -147,13 +147,13 @@ def trade():
 #Your code here
 #Note that you can access the database session using g.session            
 # TODO: Check the signature
-    result = False
+    result_check = False
     payload = content['payload']
     sig = content['sig']
-    result = check_sig(payload,sig)
+    result_check = check_sig(payload,sig)
       
 # TODO: Add the order to the database
-    if(result):
+    if(result_check):
         order = {}
         order['sender_pk'] = payload['sender_pk']
         order['receiver_pk'] = payload['receiver_pk']
@@ -170,7 +170,7 @@ def trade():
         fill_order(Order(**order),txes=[])
         
 # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
-    return jsonify(result)
+    return jsonify(result_check)
 
 
 # In[ ]:
