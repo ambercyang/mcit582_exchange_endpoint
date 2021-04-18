@@ -170,7 +170,7 @@ def trade():
     g.session.commit()
         
 # TODO: Fill the order
-    fill_order(order,txes=[])
+    fill_order(Order(**order),txes=[])
         
 # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
     return jsonify(result)
