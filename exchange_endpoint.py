@@ -177,8 +177,12 @@ def trade():
         log_message(content)
         
 # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
-    print(" this is jsonify(result_check) = ",jsonify(result_check))
-    return jsonify(result_check)
+    if(result_check):
+        return jsonify(True)
+    else:
+        return jsonify(False)
+
+
 
 
 # In[ ]:
