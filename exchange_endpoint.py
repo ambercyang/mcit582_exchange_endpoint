@@ -74,11 +74,14 @@ def fill_order(order,txes=[]):
 #Your code here
     #1.Insert the order
     order_obj = Order( sender_pk=order['sender_pk'],receiver_pk=order['receiver_pk'], buy_currency=order['buy_currency'], sell_currency=order['sell_currency'], buy_amount=order['buy_amount'], sell_amount=order['sell_amount'] )
-    #session.add(order_obj)
-    #session.commit()
+    g.session.add(order_obj)
+    g.session.commit()
 
     #2.Check if there are any existing orders that match
-    matched_order = g.session.query(Order).filter(Order.filled==None,                                       Order.buy_currency == order_obj.sell_currency,                                       Order.sell_currency == order_obj.buy_currency,                                       Order.sell_amount/Order.buy_amount >= order_obj.buy_amount/order_obj.sell_amount).first()
+    matched_order = session.query(Order).filter(Order.filled==None,\
+                                       Order.buy_currency == order_obj.sell_currency,\
+                                       Order.sell_currency == order_obj.buy_currency,\
+                                       Order.sell_amount/Order.buy_amount >= order_obj.buy_amount/order_obj.sell_amount).first()
     #3. if a match is found
     if matched_order != None:
         matched_order.filled = datetime.now()
