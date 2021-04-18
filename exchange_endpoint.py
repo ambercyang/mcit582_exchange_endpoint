@@ -93,36 +93,15 @@ def fill_order(order,txes=[]):
         if order_obj.buy_amount > matched_order.sell_amount:
                 new_order = Order(sender_pk = order_obj.sender_pk,receiver_pk = order_obj.receiver_pk,                                   buy_currency = order_obj.buy_currency, sell_currency = order_obj.sell_currency,                                   buy_amount = order_obj.buy_amount - matched_order.sell_amount,                                   sell_amount = (order_obj.buy_amount - matched_order.sell_amount)* order_obj.sell_amount / order_obj.buy_amount,                                  creator_id = order_obj.id)
                 print("partially filled, new_order.buy_amount > matched_order.sell amount, creator_id =", new_order.creator_id)
-                order = {}
-                order['sender_pk'] = json.dumps(new_order.sender_pk)
-                order['receiver_pk'] = json.dumps(new_order.receiver_pk)
-                order['buy_currency'] = json.dumps(new_order.buy_currency)
-                order['sell_currency'] = json.dumps(new_order.sell_currency)
-                order['buy_amount'] = json.dumps(new_order.buy_amount)
-                order['sell_amount'] = json.dumps(new_order.sell_amount)
-                order['signature'] = json.dumps(new_order.sender_pk)
-
-                g.session.add( Order(**order) )
-                g.session.commit() 
-                #g.session.add(new_order)
-                #g.session.add(order)
-                #g.session.commit()
+                g.session.add(new_order)
+                g.session.commit()
                  
         if matched_order.buy_amount > order_obj.sell_amount:
                 new_order = Order(sender_pk = matched_order.sender_pk,receiver_pk = matched_order.receiver_pk,                                   buy_currency =matched_order.buy_currency, sell_currency = matched_order.sell_currency,                                   buy_amount = matched_order.buy_amount - order_obj.sell_amount,                                   sell_amount= (matched_order.buy_amount - order_obj.sell_amount) * matched_order.sell_amount / matched_order.buy_amount,                                  creator_id = matched_order.id)
                 print("partially filled, matched_order.buy_amount>new_order.sell_amount, creator_id =", new_order.creator_id)
-                order = {}
-                order['sender_pk'] = json.dumps(new_order.sender_pk)
-                order['receiver_pk'] = json.dumps(new_order.receiver_pk)
-                order['buy_currency'] = json.dumps(new_order.buy_currency)
-                order['sell_currency'] = json.dumps(new_order.sell_currency)
-                order['buy_amount'] = json.dumps(new_order.buy_amount)
-                order['sell_amount'] = json.dumps(new_order.sell_amount)
-                order['signature'] = json.dumps(new_order.sender_pk)
-                g.session.add( Order(**order) )
-                g.session.commit() 
-                #g.session.add(new_order)
-                #g.session.commit()
+                
+                g.session.add(new_order)
+                g.session.commit()
     pass
 
 
@@ -166,7 +145,12 @@ def trade():
                 return jsonify( False )
             
 #Your code here
-#Note that you can access the database session using g.session            
+#Note that you can access the database session using g.session
+        if error:
+            print( json.dumps(content) )
+            log_message(content)
+            
+
 # TODO: Check the signature
     payload = content['payload']
     sig = content['sig']
