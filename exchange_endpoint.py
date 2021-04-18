@@ -171,6 +171,8 @@ def trade():
         
 # TODO: Fill the order
         fill_order(order,txes=[])
+    else:
+        log_message(content)
         
 # TODO: Be sure to return jsonify(True) or jsonify(False) depending on if the method was successful
     return jsonify(result_check)
