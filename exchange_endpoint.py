@@ -147,6 +147,7 @@ def trade():
 #Your code here
 #Note that you can access the database session using g.session            
 # TODO: Check the signature
+    result = False
     payload = content['payload']
     sig = content['sig']
     result = check_sig(payload,sig)
