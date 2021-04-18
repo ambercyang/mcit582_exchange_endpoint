@@ -132,6 +132,7 @@ def trade():
         print( f"content = {json.dumps(content)}" )
         columns = [ "pk", "sender_pk", "receiver_pk", "buy_currency", "sell_currency", "buy_amount", "sell_amount", "platform" ]
         fields = [ "sig", "payload" ]
+        print("columns = ", columns)
 
         for field in fields:
             if not field in content.keys():
